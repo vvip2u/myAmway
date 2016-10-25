@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="Author" content="Gao Xiang" />
+
+<title>jQuery 右键菜单</title>
+    <link href="jquery.contextmenu.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    .target
+    {
+    	margin:40px;
+		width:200px;
+		height:60px;
+        border:solid 1px #ffccee;   
+        padding:5px;
+        background-color:#f8f8f8;
+        color:#000000;
+     }
+    </style>
+    <script src="jquery-1.4.2.js" type="text/javascript"></script>
+    <script src="jquery.contextmenu.js" type="text/javascript"></script>  
+    <script type="text/javascript">
+        $().ready(function() {
+            var option = { width: 160, items: [
+                            { text: "添加节点", icon: "images/icons/ico2.gif", alias: "Add node", width: 160, action: menuAction},
+                            { text: "编辑节点", icon: "images/icons/ico3.gif", alias: "Edit node", action: menuAction },
+                            { text: "删除节点", icon: "images/icons/ico3.gif", alias: "Remove node", action: menuAction },
+                            { type: "splitLine" },
+                            { text: "保存位置", icon: "images/icons/ico4.gif", alias: "1-4", action: menuAction },
+							{ text: "重新排列", icon: "images/icons/ico4.gif", alias: "1-4", action: menuAction },
+                            { type: "splitLine" },
+							{ text: "视图", icon: "images/icons/ico6.gif", alias: "1-6", type: "group", width: 180, items: [
+	                            { text: "展开所有节点", icon: "images/icons/ico6-1.gif", alias: "4-1", action: menuAction },
+	                            { text: "收起所有节点", icon: "images/icons/ico6-2.gif", alias: "4-2", action: menuAction }
+                            ]
+                            },
+							{ type: "splitLine" },
+                            { text: "属性", icon: "images/icons/ico5.gif", alias: "1-5", action: menuAction }
+                            
+                            ], onShow: applyrule,
+                onContextMenu: BeforeContextMenu
+            };
+            function menuAction() {
+                alert(this.data.alias);
+            }
+            function applyrule(menu) {               
+                if (this.id == "target2") {
+                    menu.applyrule({ name: "target2",
+                        disable: true,
+                        items: ["Edit node", "Remove node", "爱普生", "洗衣机", "收音机"]
+                    });
+                }
+                else {
+                    menu.applyrule({ name: "all",
+                        disable: true,
+                        items: []
+                    });
+                }
+            }
+            function BeforeContextMenu() {
+                return this.id != "target3";
+            }
+            $("#target,#target2,#target3").contextmenu(option);
+        });
+    </script>
+</head>
+<body>
+        <div id="target"  class="target">所有菜单</div>
+        <div id="target2"  class="target">指定disable菜单项</div>
+        <div id="target3"  class="target">不可用</div>
+        <div style="margin-left:50px;"><a href="./demo_src.rar">Download <b>demo source</b></a></div>
+</body>
+</html>
